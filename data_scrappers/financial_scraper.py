@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup as bs
 
 
 
-ticker = 'XOM'
+ticker = 'AAPL'
 
 def get_metrics(ticker):
     stock = yf.Ticker(ticker)
@@ -80,16 +80,24 @@ def get_metrics(ticker):
                                    'EV/Gross Profit': ev_gross_quarterly,
                                    'EV/EBITDA': ev_ebitda_quarterly,
                                    'EV/(EBITDA-CapEX)' : ev_ebitda_capex_quart,
+                                   'PEG': peg_quarterly,
                                    'Price/Book': p_book_quart,
                                    'Price/Revenue': p_rev_quarterly,
                                    'Price/Gross Profit': p_gross_quarterly,
                                    'Price/EBITDA': p_ebidta_quarterly,
-                                   'PEG': peg_quarterly,
                                    'Forward P/E': forward_pe_quart})
+
+    yearly_metrics = yearly_metrics.reset_index()
+    yearly_metrics[''] = pd.to_datetime(yearly_metrics['']).dt.date
+    yearly_metrics = yearly_metrics.set_index('')
+
+    quarter_metrics = quarter_metrics.reset_index()
+    quarter_metrics[''] = pd.to_datetime(quarter_metrics['']).dt.date
+    quarter_metrics = quarter_metrics.set_index('')
 
     return yearly_metrics, quarter_metrics
 
-# year, quarter  = get_metrics(ticker)
+year, quarter  = get_metrics(ticker)
 
 def get_summary(ticker):
     stock = yf.Ticker(ticker)
@@ -118,3 +126,4 @@ def get_reccomendations(ticker):
 
 # rec = get_reccomendations(ticker)
 
+print(year.columns)

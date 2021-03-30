@@ -3,22 +3,6 @@ import yfinance as yf
 import pandas as pd
 
 
-# def plot_candle_sticks(ticker, price_data):
-#     fig = go.Figure()
-#     fig.add_trace(
-#         go.Candlestick(x=stock['Date'][-days:], open=df['Open'][-days:], high=df['High'][-days:], low=df['Low'][-days:],
-#                        close=stock['Close'][-days:], name='Candle stick'))
-#     fig.add_trace(go.Scatter(x=stock['Date'][-days:], y=stock['15MA'][-days:], line=dict(color='purple', width=1),
-#                              name='10 Day Moving Average'))
-#     fig.add_trace(go.Scatter(x=stock['Date'][-days:], y=stock['50MA'][-days:], line=dict(color='orange', width=1),
-#                              name='50 Day Moving Average'))
-#     fig.add_trace(go.Scatter(x=stock['Date'][-days:], y=stock['150MA'][-days:], line=dict(color='blue', width=1),
-#                              name='150 Day Moving Average'))
-#
-#     fig.layout.update(title=f'{ticker} Stock Price Chart for the past {days} days', yaxis_title="Stock Price ($)",
-#                       width=720, height=500)
-#
-#     return  fig
 
 def plot_candle_sticks(ticker, price_data):
     days = 200

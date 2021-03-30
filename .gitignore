@@ -1,2 +1,4 @@
 .idea/
 venv/
+__pycache__
+data_scrappers/__pycache__

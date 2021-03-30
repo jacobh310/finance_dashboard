@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup as bs
 
 
 
-ticker = 'AAPL'
+ticker = 'XOM'
 
 def get_metrics(ticker):
     stock = yf.Ticker(ticker)
@@ -89,7 +89,7 @@ def get_metrics(ticker):
 
     return yearly_metrics, quarter_metrics
 
-year, quarter  = get_metrics(ticker)
+# year, quarter  = get_metrics(ticker)
 
 def get_summary(ticker):
     stock = yf.Ticker(ticker)
@@ -107,7 +107,7 @@ def get_summary(ticker):
 
     return summary
 
-summary = get_summary(ticker)
+# summary = get_summary(ticker)
 
 def get_reccomendations(ticker):
     stock = yf.Ticker(ticker)
@@ -116,6 +116,5 @@ def get_reccomendations(ticker):
 
     return recomends
 
-rec = get_reccomendations(ticker)
-
+# rec = get_reccomendations(ticker)
 

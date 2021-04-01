@@ -2,7 +2,6 @@ import datetime as dt
 from datetime import datetime, timedelta
 import re
 import pandas as pd
-import json
 from psaw import PushshiftAPI
 
 tickers = pd.read_csv('D:\\Github\\financial_dashboard\data_scrappers\\tickers.csv', header=None,names=['Tickers'])

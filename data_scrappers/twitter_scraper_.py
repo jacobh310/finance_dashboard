@@ -1,19 +1,13 @@
 import pandas as pd
-import numpy as np
 import yfinance as yf
-from datetime import datetime, timedelta
-import datetime as dt
 import time
 import tweepy
+import config
 
-key = 'r9YGVd2pyO5U6VUccfuglgLs9'
-key_secret = 'ADhUJnWi44C2hxHwho42pCWJ4W144XIfCeVZBt8RQF4MSAIj8O'
 
-token = '740611933754167297-w9qnnOphls7EKfEQP1HhzZTWWUjbiam'
-token_secret = 'IPfJEOz8wGKYmQERAdIfSXTJLzeBPlQU1WD4o13S9y5KF'
 
-auth = tweepy.OAuthHandler(key, key_secret)
-auth.set_access_token(token, token_secret)
+auth = tweepy.OAuthHandler(config.key, config.key_secret)
+auth.set_access_token(config.token, config.token_secret)
 
 api = tweepy.API(auth,wait_on_rate_limit=True)
 

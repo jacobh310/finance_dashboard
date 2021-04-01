@@ -45,23 +45,25 @@ def get_metrics(ticker):
     icr_quarterly = (ebitda_quarterly + cash_flow_quarterly.loc['Capital Expenditures'])/(-1*income_quarterly.loc['Interest Expense'])
     current_ratio_quart = balance_sheet_quart.loc['Total Current Assets']/ balance_sheet_quart.loc['Total Current Liabilities']
 
-    ev_quarterly = valuation.iloc[1,:].values[2:-1]
+    ev_quarterly = valuation.iloc[1,:].values[2:]
     ev_quarterly = np.array([float(i[:-1]) * 1000000000000 if i[-1].lower() == 't' else float(i[:-1]) * 1000000000  for i in ev_quarterly])
     ev_gross_quarterly = ev_quarterly/gross_quarterly
+
+
     fcf_yield_quarterly = fcf_quarterly/ev_quarterly
     ev_revenue_quarterly = ev_quarterly/revenue_quarterly
     ev_ebitda_quarterly = ev_quarterly/ebitda_quarterly
     ev_ebitda_capex_quart = ev_quarterly/(ebitda_quarterly + cash_flow_quarterly.loc['Capital Expenditures'])
-    peg_quarterly = np.array([float(i) for i in valuation.iloc[4,2:-1].values])
-    forward_pe_quart = np.array([float(i) for i in valuation.iloc[3,2:-1].values])
+    peg_quarterly = np.array([float(i) for i in valuation.iloc[4,2:].values])
+    forward_pe_quart = np.array([float(i) for i in valuation.iloc[3,2:].values])
 
 
-    mc_quarterly = valuation.iloc[0,:].values[2:-1]
+    mc_quarterly = valuation.iloc[0,:].values[2:]
     mc_quarterly = np.array([float(i[:-1]) * 1000000000000 if i[-1].lower() == 't' else float(i[:-1]) * 1000000000  for i in mc_quarterly])
-    p_rev_quarterly = mc_quarterly / revenue_quarterly
-    p_gross_quarterly = mc_quarterly/gross_quarterly
-    p_ebidta_quarterly = mc_quarterly/ebitda_quarterly
-    p_book_quart = valuation.iloc[6,:].values[2:-1]
+    # p_rev_quarterly = mc_quarterly / revenue_quarterly
+    # p_gross_quarterly = mc_quarterly/gross_quarterly
+    # p_ebidta_quarterly = mc_quarterly/ebitda_quarterly
+    p_book_quart = valuation.iloc[6,:].values[2:]
 
     yearly_metrics = pd.DataFrame({ 'Revenue':revenue,
                                    'Gross Margin':gross_margin,
@@ -80,12 +82,13 @@ def get_metrics(ticker):
                                    'EV/Gross Profit': ev_gross_quarterly,
                                    'EV/EBITDA': ev_ebitda_quarterly,
                                    'EV/(EBITDA-CapEX)' : ev_ebitda_capex_quart,
+                                   'Forward P/E': forward_pe_quart,
                                    'PEG': peg_quarterly,
-                                   'Price/Book': p_book_quart,
-                                   'Price/Revenue': p_rev_quarterly,
-                                   'Price/Gross Profit': p_gross_quarterly,
-                                   'Price/EBITDA': p_ebidta_quarterly,
-                                   'Forward P/E': forward_pe_quart})
+                                   'Price/Book': p_book_quart})
+                                   # 'Price/Revenue': p_rev_quarterly,
+                                   # 'Price/Gross Profit': p_gross_quarterly
+                                   # 'Price/EBITDA': p_ebidta_quarterly,
+                                   # 'Forward P/E': forward_pe_quart})
 
     yearly_metrics = yearly_metrics.reset_index()
     yearly_metrics[''] = pd.to_datetime(yearly_metrics['']).dt.date
@@ -95,7 +98,7 @@ def get_metrics(ticker):
     quarter_metrics[''] = pd.to_datetime(quarter_metrics['']).dt.date
     quarter_metrics = quarter_metrics.set_index('')
 
-    return yearly_metrics, quarter_metrics
+    return  yearly_metrics, quarter_metrics
 
 
 def get_summary(ticker):

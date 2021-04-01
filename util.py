@@ -1,4 +1,5 @@
 import  plotly.graph_objs as go
+from plotly.subplots import make_subplots
 import yfinance as yf
 import pandas as pd
 
@@ -36,4 +37,22 @@ def plot_candle_sticks(ticker, price_data):
                       font=dict(size=20),
                       width=1700,
                       height=700)
+    return fig
+
+def plot_yearly(df):
+    fig = make_subplots(
+        rows=len(df)+1, cols=1,
+        subplot_titles=(df.columns))
+    i = 1
+    for col in df.columns:
+
+        fig.add_trace(
+            go.Scatter(x=df.index, y=df[col]),
+            row=i, col=1
+        )
+        i += 1
+
+
+    fig.update_layout(height=1000, width=800)
+
     return fig

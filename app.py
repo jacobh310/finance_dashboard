@@ -30,8 +30,13 @@ if dashboard == options[0]:
     yearly, quarter = fs.get_metrics(ticker)
 
     col1.markdown("<h2 style='text-align: left; color:#295E61 ;'>Yearly Metrics</h2>",  unsafe_allow_html=True)
+    yearly = yearly.astype(float).round(3)
     col1.dataframe(yearly.T)
 
 
+    col1.plotly_chart(util.plot_yearly(yearly))
+
     col2.markdown("<h2 style='text-align: left; color:#295E61 ;'>Quarterly Metrics</h2>",  unsafe_allow_html=True)
+    quarter = quarter.astype(float).round(3)
     col2.dataframe(quarter.T, height = 350)
+

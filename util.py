@@ -39,7 +39,7 @@ def plot_candle_sticks(ticker, price_data):
                       height=700)
     return fig
 
-def plot_yearly(df):
+def plot_metrics(df,height):
     fig = make_subplots(
         rows=len(df)+1, cols=1,
         subplot_titles=(df.columns))
@@ -53,6 +53,6 @@ def plot_yearly(df):
         i += 1
 
 
-    fig.update_layout(height=1000, width=800)
+    fig.update_layout(height=height, width=850, showlegend=False)
 
     return fig

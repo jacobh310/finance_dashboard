@@ -2,7 +2,6 @@ import pandas as pd
 import numpy as np
 import re
 import emoji
-import nltk
 
 tweets = pd.read_csv('D:\\Github\\financial_dashboard\data_scrappers\\tweets.csv', index_col=0)
 wsb_titles = pd.read_csv('D:\\Github\\financial_dashboard\data_scrappers\\wsb_title.csv')
@@ -17,14 +16,14 @@ def cleaner(tweet):
     tweet = tweet.replace("#", "").replace("_", " ").replace('*','').replace('$','') #Remove hashtag sign but keep the text
 
     return tweet
+
 tweets.columns = ['Date','Ticker','Tweet']
 tweets['Tweet'] = tweets['Tweet'].map(lambda x: cleaner(x))
 
 tweets.to_csv('clean_tweets.csv', index=False)
 
-wsb_titles = wsb_titles.dropna()
 
 for col in wsb_titles.columns:
-    wsb_titles[col] = wsb_titles[col].map(lambda x: cleaner(x))
+    wsb_titles[col] = wsb_titles[col].map(lambda x: np.nan if pd.isna(x)  else cleaner(x))
 
 wsb_titles.to_csv('clean_wsb_titles.csv', index=False)

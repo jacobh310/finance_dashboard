@@ -40,19 +40,20 @@ def plot_candle_sticks(ticker, price_data):
     return fig
 
 def plot_metrics(df,height):
+
     fig = make_subplots(
-        rows=len(df)+1, cols=1,
+        rows=len(df.columns) + 1 , cols=1,
         subplot_titles=(df.columns))
     i = 1
     for col in df.columns:
 
         fig.add_trace(
             go.Scatter(x=df.index, y=df[col]),
-            row=i, col=1
-        )
+            row=i, col=1)
         i += 1
 
 
     fig.update_layout(height=height, width=850, showlegend=False)
 
     return fig
+

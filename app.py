@@ -33,11 +33,10 @@ if dashboard == options[0]:
     yearly = yearly.astype(float).round(3)
     col1.dataframe(yearly.T)
 
-
     col1.plotly_chart(util.plot_metrics(yearly,1000))
 
     col2.markdown("<h2 style='text-align: left; color:#295E61 ;'>Quarterly Metrics</h2>",  unsafe_allow_html=True)
     quarter = quarter.astype(float).round(3)
     col2.dataframe(quarter.T, height = 350)
 
-    # col2.plotly_chart(util.plot_metrics(quarter,2000))
+    col2.plotly_chart(util.plot_metrics(quarter,3000))

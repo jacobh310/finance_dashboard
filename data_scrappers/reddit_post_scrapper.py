@@ -16,7 +16,7 @@ def scrape_posts(tickers):
     titles = {}
     posts = {}
 
-    subs = list(api.search_submissions(after=start_epoch, subreddit='wallstreetbets', filter=['title', 'selftext'], limit=10000))
+    subs = list(api.search_submissions(after=start_epoch, subreddit='wallstreetbets', filter=['title', 'selftext'], limit=5000))
 
     for ticker in tickers:
         titles[ticker] = []

@@ -5,6 +5,7 @@ import emoji
 
 tweets = pd.read_csv('D:\\Github\\financial_dashboard\data_scrappers\\tweets.csv', index_col=0)
 wsb_titles = pd.read_csv('D:\\Github\\financial_dashboard\data_scrappers\\wsb_title.csv')
+wsb_titles = pd.melt(wsb_titles, var_name='Ticker', value_name='Title').dropna()
 
 def cleaner(tweet):
     tweet = re.sub(r"RT @[\w]*:","",tweet)
@@ -26,5 +27,4 @@ tweets.to_csv('clean_tweets.csv', index=False)
 for col in wsb_titles.columns:
     wsb_titles[col] = wsb_titles[col].map(lambda x: np.nan if pd.isna(x)  else cleaner(x))
 
-wsb_titles = pd.melt(wsb_titles, var_name='Ticker', value_name='Title').dropna()
 wsb_titles.to_csv('clean_wsb_titles.csv', index=False)

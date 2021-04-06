@@ -37,8 +37,8 @@ def scrape_posts(tickers):
 
     return titles, posts
 
-# titles, posts = scrape_posts(top_15_tickers)
-# titles.to_csv('wsb_title.csv', index=False)
+titles, posts = scrape_posts(top_15_tickers)
+titles.to_csv('wsb_title.csv', index=False)
 # posts.to_csv('wsb_posts.csv', index=False)
 
 def scrape_commets(tickers):

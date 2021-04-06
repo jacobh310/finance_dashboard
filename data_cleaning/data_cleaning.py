@@ -19,11 +19,12 @@ def cleaner(tweet):
 
 tweets.columns = ['Date','Ticker','Tweet']
 tweets['Tweet'] = tweets['Tweet'].map(lambda x: cleaner(x))
-
+tweets['Date'] =  pd.to_datetime(tweets['Date']).dt.date
 tweets.to_csv('clean_tweets.csv', index=False)
 
 
 for col in wsb_titles.columns:
     wsb_titles[col] = wsb_titles[col].map(lambda x: np.nan if pd.isna(x)  else cleaner(x))
 
+wsb_titles = pd.melt(wsb_titles, var_name='Ticker', value_name='Title').dropna()
 wsb_titles.to_csv('clean_wsb_titles.csv', index=False)

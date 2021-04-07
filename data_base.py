@@ -4,6 +4,7 @@ from sqlalchemy.orm import sessionmaker
 import datetime
 import  pandas as pd
 
+
 Base = declarative_base()
 
 class TwitterSentiment(Base):
@@ -34,7 +35,8 @@ twitter_sentiments = pd.read_csv('D:\\Github\\financial_dashboard\Sentiment_anal
 twitter_sentiments['Date'] = pd.to_datetime(twitter_sentiments['Date']).dt.date
 wsb_sentiments = pd.read_csv('D:\\Github\\financial_dashboard\Sentiment_analysis\\wsb_titles_sentiments.csv')
 
-engine = create_engine('sqlite:///sentiment_db.sqlite3')
+# engine = create_engine('sqlite:///sentiment_db.sqlite3')
+engine = create_engine('postgresql://postgres:chivas101@localhost:5432/Sentiment')
 Base.metadata.create_all(bind=engine)
 
 def add_to_wsb():
@@ -76,4 +78,4 @@ def add_to_twitter():
 
     session.close()
 
-add_to_twitter()
+# add_to_twitter()

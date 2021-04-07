@@ -10,13 +10,16 @@ st.markdown("<h1 style='text-align: center; color:#295E61 ;'>Financial Dashboard
             unsafe_allow_html=True)
 
 options = ('Fundamentals','Sentiment Analysis','Price Forecaster')
-dashboard = st.sidebar.selectbox('Which Dashboard',options,index=1)
+dashboard = st.sidebar.selectbox('Which Dashboard',options,index=0)
 
 if dashboard == options[0]:
 
+    tickers = pd.read_csv('D:\\Github\\financial_dashboard\data_scrappers\\tickers.csv', header=None, names=['Tickers'])
+    tickers['Tickers'] = tickers['Tickers'].str[:-2]
+    tickers = tickers['Tickers'].tolist()
 
-    stocks = ("AAPL", "GOOG", "MSFT", "TSLA", "AMD")
-    ticker = st.selectbox('Which stock?', stocks)
+    # stocks = ("AAPL", "GOOG", "MSFT", "TSLA", "AMD")
+    ticker = st.selectbox('Which stock?', tickers , index=tickers.index('AAPL'))
 
     price_data = yf.Ticker(ticker).history(period='3y', interval='1d').drop(columns=['Volume','Dividends','Stock Splits'])
 
@@ -25,21 +28,32 @@ if dashboard == options[0]:
     st.markdown("<h2 style='text-align: center; color:#295E61 ;'>Fundamentals and Metrics</h2>",
                 unsafe_allow_html=True)
 
+    ticker2 = st.selectbox('Stock to compare to', tickers , index=tickers.index('AAPL'))
+
     col1, col2 = st.beta_columns(2)
 
     yearly, quarter = fs.get_metrics(ticker)
+    yearly2, quarter2 = fs.get_metrics((ticker2))
 
-    col1.markdown("<h2 style='text-align: left; color:#295E61 ;'>Yearly Metrics</h2>",  unsafe_allow_html=True)
+    col1.markdown(f"<h2 style='text-align: left; color:#295E61 ;'>{ticker} Yearly Metrics</h2>",  unsafe_allow_html=True)
     yearly = yearly.astype(float).round(3)
     col1.dataframe(yearly.T)
 
-    col1.plotly_chart(util.plot_metrics(yearly,1000))
+    col1.markdown(f"<body style='text-align: left; color:#0000FF ;'>{ticker}</body>", unsafe_allow_html=True)
+    col1.markdown(f"<body style='text-align: left; color:#FF0000 ;'>{ticker2}</body>", unsafe_allow_html=True)
 
-    col2.markdown("<h2 style='text-align: left; color:#295E61 ;'>Quarterly Metrics</h2>",  unsafe_allow_html=True)
+    col1.plotly_chart(util.plot_metrics(yearly,yearly2, 1500))
+    col1.header(f'Yahoo Analyst Recommendations for {ticker}')
+    col1.plotly_chart(util.recommendations(fs.get_reccomendations(ticker)))
+
+    col2.markdown(f"<h2 style='text-align: left; color:#295E61 ;'>{ticker} Quarterly Metrics</h2>",  unsafe_allow_html=True)
     quarter = quarter.astype(float).round(3)
     col2.dataframe(quarter.T, height = 350)
 
-    col2.plotly_chart(util.plot_metrics(quarter,3000))
+    col2.markdown(f"<body style='text-align: left; color:#0000FF ;'>{ticker}</body>",  unsafe_allow_html=True)
+    col2.markdown(f"<body style='text-align: left; color:#FF0000 ;'>{ticker2}</body>",  unsafe_allow_html=True)
+
+    col2.plotly_chart(util.plot_metrics(quarter,quarter2,3500))
 
 if dashboard == options[1]:
 

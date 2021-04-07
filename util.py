@@ -2,6 +2,9 @@ import  plotly.graph_objs as go
 from plotly.subplots import make_subplots
 import yfinance as yf
 import pandas as pd
+from data_base import TwitterSentiment, WsbSentiment
+from sqlalchemy import  create_engine
+from sqlalchemy.orm import sessionmaker
 
 
 
@@ -57,3 +60,51 @@ def plot_metrics(df,height):
 
     return fig
 
+def get_twitter_sentiment():
+
+    engine = create_engine('postgresql://postgres:chivas101@localhost:5432/Sentiment')
+
+    df = pd.read_sql("""SELECT 
+        tweet_date, 
+        ticker, 
+        compound
+    FROM twitter_sentiment
+    where tweet_date > current_date - interval '7 days'""", engine)
+
+    return df
+
+def get_wsb_sentiment():
+    engine = create_engine('postgresql://postgres:chivas101@localhost:5432/Sentiment')
+
+    df = pd.read_sql("""SELECT 
+        date_added,
+        ticker, 
+        compound
+    FROM wsb_sentiment
+    where date_added > current_date - interval '7 days'""", engine)
+
+    return df
+
+def weekly_sent_bar(df):
+    fig=go.Figure()
+    fig.add_trace(go.Bar(x=df.index,y=df, textposition='auto'))
+    fig.update_layout(title= 'Average Weekly Sentiment',
+                       margin=go.layout.Margin(b=0),
+                       width=800,
+                       height=600)
+
+    return fig
+
+def daily_sent(df,tickers):
+    fig=go.Figure()
+
+    for ticker in tickers:
+        fig.add_trace(go.Scatter(x=df.loc[ticker].index,
+                                 y= df.loc[ticker],
+                                name=ticker))
+
+    fig.update_layout(title = 'Average Daily Sentiment',
+                    height=800,
+                    width=1500,
+                    margin=dict(b=10,t=26))
+    return fig

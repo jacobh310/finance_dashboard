@@ -16,7 +16,7 @@ wsb_tickers = wsb_tickers.sort_values(by = 'Tickers', ascending=False)
 top_15_tickers = wsb_tickers.head(15).index
 # top_15_comp_name = [yf.Ticker(ticker).info['shortName'].split()[0] for ticker in top_15_tickers]
 
-count = 5000
+count = 10000
 
 df = pd.DataFrame()
 for ticker in top_15_tickers:

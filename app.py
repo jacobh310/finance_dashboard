@@ -9,8 +9,8 @@ import pandas as pd
 st.markdown("<h1 style='text-align: center; color:#295E61 ;'>Financial Dashboard</h1>",
             unsafe_allow_html=True)
 
-options = ('Fundamentals','Price Prediction','Sentiment Analysis')
-dashboard = st.sidebar.selectbox('Which Dashboard',options)
+options = ('Fundamentals','Sentiment Analysis','Price Prediction')
+dashboard = st.sidebar.selectbox('Which Dashboard',options,index=1)
 
 if dashboard == options[0]:
 
@@ -40,3 +40,22 @@ if dashboard == options[0]:
     col2.dataframe(quarter.T, height = 350)
 
     col2.plotly_chart(util.plot_metrics(quarter,3000))
+
+if dashboard == options[1]:
+
+    col1, col2 = st.beta_columns(2)
+    twitter_sentiments = util.get_twitter_sentiment()
+    wsb_sentiments = util.get_wsb_sentiment()
+
+    twitter_avg_sent = twitter_sentiments.groupby('ticker').mean()['compound']
+    wsb_avg_sent = wsb_sentiments.groupby('ticker').mean()['compound']
+
+    col1.header('Twitter')
+    col1.plotly_chart(util.weekly_sent_bar(twitter_avg_sent))
+
+    col2.header('Wall Street Bets')
+    col2.plotly_chart(util.weekly_sent_bar(wsb_avg_sent))
+
+    st.markdown("<h2 style='text-align: center; color:#295E61 ;'>Twitter  Sentiment over the Past  7 days</h2>",  unsafe_allow_html=True)
+    avg_sent_day = twitter_sentiments.groupby(['ticker','tweet_date']).mean()['compound']
+    st.plotly_chart(util.daily_sent(avg_sent_day,twitter_avg_sent.index))

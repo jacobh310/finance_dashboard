@@ -74,7 +74,7 @@ def get_twitter_sentiment():
         ticker, 
         compound
     FROM twitter_sentiment
-    where tweet_date > current_date - interval '7 days'""", engine)
+    where tweet_date > current_date - interval '9 days'""", engine)
 
     return df
 
@@ -86,7 +86,7 @@ def get_wsb_sentiment():
         ticker, 
         compound
     FROM wsb_sentiment
-    where date_added > current_date - interval '7 days'""", engine)
+    where date_added > current_date - interval '9 days'""", engine)
 
     return df
 

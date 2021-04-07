@@ -9,7 +9,7 @@ import pandas as pd
 st.markdown("<h1 style='text-align: center; color:#295E61 ;'>Financial Dashboard</h1>",
             unsafe_allow_html=True)
 
-options = ('Fundamentals','Sentiment Analysis','Price Prediction')
+options = ('Fundamentals','Sentiment Analysis','Price Forecaster')
 dashboard = st.sidebar.selectbox('Which Dashboard',options,index=1)
 
 if dashboard == options[0]:

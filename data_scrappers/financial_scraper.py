@@ -20,12 +20,15 @@ def get_metrics(ticker):
     ## yearly metrics
     revenue = income_statement.loc['Total Revenue']
     gross_profit = income_statement.loc['Gross Profit']
-    gross_margin =  gross_profit/revenue
+    try: gross_margin =  gross_profit/revenue
+    except: gross_margin = np.nan
     ebit = (income_statement.loc['Net Income From Continuing Ops'] + income_statement.loc['Income Tax Expense'] +(-1*income_statement.loc['Interest Expense']))
     ebitda = ebit + cash_flow.loc['Depreciation']
-    ebitda_margin = ebitda/revenue
+    try: ebitda_margin = ebitda/revenue
+    except: ebitda_margin = np.nan
     fcf = cash_flow.loc['Total Cash From Operating Activities'] + cash_flow.loc['Capital Expenditures']
-    ccr = fcf/ebitda
+    try: ccr = fcf/ebitda
+    except: ccr = np.nan
     icr = (ebitda + cash_flow.loc['Capital Expenditures'])/(-1*income_statement.loc['Interest Expense'])
 
 
@@ -36,24 +39,32 @@ def get_metrics(ticker):
 
     gross_quarterly = income_quarterly.loc['Gross Profit']
     revenue_quarterly = income_quarterly.loc['Total Revenue']
-    gross_margin_quarterly = gross_quarterly/revenue_quarterly
+    try: gross_margin_quarterly = gross_quarterly/revenue_quarterly
+    except: gross_margin_quarterly = np.nan
     ebit_quartely = (income_quarterly.loc['Net Income From Continuing Ops'] + income_quarterly.loc['Income Tax Expense'] +(-1*income_quarterly.loc['Interest Expense']))
     ebitda_quarterly = ebit_quartely + cash_flow_quarterly.loc['Depreciation']
-    ebitda_margin_quarterly = ebitda_quarterly/revenue_quarterly
+    try:ebitda_margin_quarterly = ebitda_quarterly/revenue_quarterly
+    except: ebitda_margin_quarterly = np.nan
     fcf_quarterly = cash_flow_quarterly.loc['Total Cash From Operating Activities'] + cash_flow_quarterly.loc['Capital Expenditures']
-    ccr_quarterly = fcf_quarterly/ebitda_quarterly
+    try: ccr_quarterly = fcf_quarterly/ebitda_quarterly
+    except: ccr_quarterly = np.nan
     icr_quarterly = (ebitda_quarterly + cash_flow_quarterly.loc['Capital Expenditures'])/(-1*income_quarterly.loc['Interest Expense'])
     current_ratio_quart = balance_sheet_quart.loc['Total Current Assets']/ balance_sheet_quart.loc['Total Current Liabilities']
 
     ev_quarterly = valuation.iloc[1,:].values[2:]
     ev_quarterly = np.array([float(i[:-1]) * 1000000000000 if i[-1].lower() == 't' else float(i[:-1]) * 1000000000  for i in ev_quarterly])
-    ev_gross_quarterly = ev_quarterly/gross_quarterly
+    try: ev_gross_quarterly = ev_quarterly/gross_quarterly
+    except: ev_gross_quarterly = np.nan
 
 
-    fcf_yield_quarterly = fcf_quarterly/ev_quarterly
-    ev_revenue_quarterly = ev_quarterly/revenue_quarterly
-    ev_ebitda_quarterly = ev_quarterly/ebitda_quarterly
-    ev_ebitda_capex_quart = ev_quarterly/(ebitda_quarterly + cash_flow_quarterly.loc['Capital Expenditures'])
+    try: fcf_yield_quarterly = fcf_quarterly/ev_quarterly
+    except: fcf_yield_quarterly = np.nan
+    try:ev_revenue_quarterly = ev_quarterly/revenue_quarterly
+    except: ev_revenue_quarterly = np.nan
+    try: ev_ebitda_quarterly = ev_quarterly/ebitda_quarterly
+    except: ev_ebitda_quarterly = np.nan
+    try: ev_ebitda_capex_quart = ev_quarterly/(ebitda_quarterly + cash_flow_quarterly.loc['Capital Expenditures'])
+    except: ev_ebitda_capex_quart = np.nan
     peg_quarterly = np.array([float(i) for i in valuation.iloc[4,2:].values])
     forward_pe_quart = np.array([float(i) for i in valuation.iloc[3,2:].values])
 

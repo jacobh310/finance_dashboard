@@ -42,7 +42,7 @@ def plot_candle_sticks(ticker, price_data):
                       height=700)
     return fig
 
-def plot_metrics(df,height):
+def plot_metrics(df,df2,height):
 
     fig = make_subplots(
         rows=len(df.columns) + 1 , cols=1,
@@ -51,12 +51,17 @@ def plot_metrics(df,height):
     for col in df.columns:
 
         fig.add_trace(
-            go.Scatter(x=df.index, y=df[col]),
+            go.Scatter(x=df.index, y=df[col],
+                       line=dict(color='blue', width=1)),
             row=i, col=1)
+        fig.add_trace\
+            (go.Scatter(x=df2.index, y=df2[col],
+                line=dict(color='red', width=1)),
+        row=i, col=1)
         i += 1
 
 
-    fig.update_layout(height=height, width=850, showlegend=False)
+    fig.update_layout(height=height, width=850, showlegend= False)
 
     return fig
 
@@ -107,4 +112,12 @@ def daily_sent(df,tickers):
                     height=800,
                     width=1500,
                     margin=dict(b=10,t=26))
+    return fig
+
+def recommendations(df):
+    fig = go.Figure()
+    fig.add_trace(go.Bar(x=df.index, y=df, textposition='auto'))
+    fig.update_layout( margin=go.layout.Margin(b=0,t=15),
+                       width=800,
+                       height=600)
     return fig

@@ -2,10 +2,13 @@ import  plotly.graph_objs as go
 from plotly.subplots import make_subplots
 import yfinance as yf
 import pandas as pd
-from data_base import TwitterSentiment, WsbSentiment
 from sqlalchemy import  create_engine
-from sqlalchemy.orm import sessionmaker
-
+import config
+import tweepy
+import time
+from data_cleaning.data_cleaning import cleaner
+from Sentiment_analysis.vader_model import sentiment_df
+from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
 
 def plot_candle_sticks(ticker, price_data):
@@ -120,4 +123,50 @@ def recommendations(df):
     fig.update_layout( margin=go.layout.Margin(b=0,t=15),
                        width=800,
                        height=600)
+    return fig
+
+
+def tweet_sent_for_stock(ticker):
+    auth = tweepy.OAuthHandler(config.key, config.key_secret)
+    auth.set_access_token(config.token, config.token_secret)
+    api = tweepy.API(auth, wait_on_rate_limit=True)
+
+    count = 1000
+
+    df = pd.DataFrame()
+    try:
+        # Creation of query method using parameters
+        tweets = tweepy.Cursor(api.search, q=ticker, count=450, lang='en', result_type='mixed').items(count)
+
+        # Pulling information from tweets iterable object
+        tweets_list = [[tweet.created_at, ticker, tweet.text] for tweet in tweets]
+
+        # Creation of dataframe from tweets list
+        # Add or remove columns as you remove tweet information
+        tweets_df = pd.DataFrame(tweets_list)
+        df = df.append(tweets_df, ignore_index=True)
+    except BaseException as e:
+        print('failed on_status,', str(e))
+        time.sleep(3)
+
+    df.columns = ['Date', 'Ticker', 'Tweet']
+    df['Tweet'] = df['Tweet'].map(lambda x: cleaner(x))
+    df['Date'] = pd.to_datetime(df['Date']).dt.date
+    df = df.dropna()
+
+    twitter_sent_df = sentiment_df(df,'Tweet')
+
+    return twitter_sent_df
+
+def plot_daily_sent(df):
+    fig=go.Figure()
+
+
+    fig.add_trace(go.Bar(x=df.index,
+                        y= df.values,))
+
+    fig.update_layout(title = 'Average Daily Sentiment',
+                    height=800,
+                    width=1000,
+                    margin=dict(b=10,t=26))
     return fig

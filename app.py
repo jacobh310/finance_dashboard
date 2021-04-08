@@ -10,7 +10,7 @@ st.markdown("<h1 style='text-align: center; color:#295E61 ;'>Financial Dashboard
             unsafe_allow_html=True)
 
 options = ('Fundamentals','Twitter and Reddit Sentiment Analysis','Stock Sentiment Analysis','Price Forecaster')
-dashboard = st.sidebar.selectbox('Which Dashboard',options,index=2)
+dashboard = st.sidebar.selectbox('Which Dashboard',options,index=1)
 
 if dashboard == options[0]:
 

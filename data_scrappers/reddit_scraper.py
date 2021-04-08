@@ -4,31 +4,38 @@ import re
 import pandas as pd
 from psaw import PushshiftAPI
 
-tickers = pd.read_csv('D:\\Github\\financial_dashboard\data_scrappers\\tickers.csv', header=None,names=['Tickers'])
-tickers['Tickers'] = tickers['Tickers'].str[:-2]
-tickers = tickers['Tickers'].values
 
-api = PushshiftAPI()
-start_epoch=dt.date.today() - timedelta(days=7)
+def get_tickers():
+    tickers = pd.read_csv('D:\\Github\\financial_dashboard\data_scrappers\\tickers.csv', header=None,names=['Tickers'])
+    tickers['Tickers'] = tickers['Tickers'].str[:-2]
+    tickers = tickers['Tickers'].values
 
-
-subs= api.search_submissions(after=start_epoch,
-                            subreddit='wallstreetbets',
-                            filter=['url','author', 'title', 'subreddit'],
-                            limit=20000)
+    api = PushshiftAPI()
+    start_epoch=dt.date.today() - timedelta(days=7)
 
 
-cash_tags = {}
-
-for sub in subs:
-    for word in sub.title.split(' '):
-        if (word.isupper() or '$' in word) and word in tickers and word.upper() !='GME':
-            word =  re.sub("[^a-zA-Z]+", "", word)
-            if word.upper() not in cash_tags:
-                cash_tags[word.upper()] = 1
-            else:
-                cash_tags[word.upper()] += 1
+    subs= api.search_submissions(after=start_epoch,
+                                subreddit='wallstreetbets',
+                                filter=['url','author', 'title', 'subreddit'],
+                                limit=20000)
 
 
-cash_tags = pd.Series(cash_tags, name='tickers')
-cash_tags.to_csv('wsb_tickers.csv')
+    cash_tags = {}
+
+    for sub in subs:
+        for word in sub.title.split(' '):
+            if (word.isupper() or '$' in word) and word in tickers and word.upper() !='GME':
+                word =  re.sub("[^a-zA-Z]+", "", word)
+                if word.upper() not in cash_tags:
+                    cash_tags[word.upper()] = 1
+                else:
+                    cash_tags[word.upper()] += 1
+
+
+    cash_tags = pd.Series(cash_tags, name='tickers')
+    return cash_tags
+
+if __name__ == "__main__":
+
+    cash_tags = get_tickers()
+    cash_tags.to_csv('wsb_tickers.csv')

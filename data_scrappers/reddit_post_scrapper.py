@@ -3,16 +3,12 @@ import datetime as dt
 from datetime import datetime, timedelta
 import pandas as pd
 
-wsb_tickers = pd.read_csv('D:\\Github\\financial_dashboard\data_scrappers\\wsb_tickers.csv',names=['Tickers'],header =0)
-wsb_tickers = wsb_tickers.sort_values(by = 'Tickers', ascending=False)
-top_15_tickers = wsb_tickers.head(15).index
+
 
 
 def scrape_posts(tickers):
     api = PushshiftAPI()
     start_epoch=dt.date.today() - timedelta(days=7)
-
-
 
     subs = list(api.search_submissions(after=start_epoch, subreddit='wallstreetbets', filter=['title', 'created_utc'], limit=15000))
 
@@ -27,10 +23,8 @@ def scrape_posts(tickers):
 
     return df
 
-titles = scrape_posts(top_15_tickers)
-titles.to_csv('wsb_title.csv', index=False)
 
-def scrape_commets(tickers):
+def scrape_comments(tickers):
 
     api = PushshiftAPI()
     start_epoch = dt.date.today() - timedelta(days=7)
@@ -45,3 +39,9 @@ def scrape_commets(tickers):
     comments = pd.DataFrame.from_dict(comments,orient='index').T
     return  comments
 
+if __name__ == "__main__":
+    wsb_tickers = pd.read_csv('D:\\Github\\financial_dashboard\data_scrappers\\wsb_tickers.csv', names=['Tickers'],header=0)
+    wsb_tickers = wsb_tickers.sort_values(by='Tickers', ascending=False)
+    top_15_tickers = wsb_tickers.head(15).index
+    titles = scrape_posts(top_15_tickers)
+    titles.to_csv('wsb_title.csv', index=False)

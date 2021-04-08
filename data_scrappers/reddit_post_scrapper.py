@@ -13,33 +13,22 @@ def scrape_posts(tickers):
     start_epoch=dt.date.today() - timedelta(days=7)
 
 
-    titles = {}
-    posts = {}
 
-    subs = list(api.search_submissions(after=start_epoch, subreddit='wallstreetbets', filter=['title', 'selftext'], limit=5000))
+    subs = list(api.search_submissions(after=start_epoch, subreddit='wallstreetbets', filter=['title', 'created_utc'], limit=15000))
 
+    df = pd.DataFrame()
     for ticker in tickers:
-        titles[ticker] = []
-        posts[ticker] = []
+        # for sub in subs:
+        #     if ticker in sub.title:
+        #         titles.append([ticker,sub.title, sub.created_utc])
+        titles = [[ticker,sub.title, sub.created_utc]  for sub in subs if ticker in sub.title]
+        titles = pd.DataFrame(titles)
+        df = df.append(titles, ignore_index=True)
 
-        for sub in subs:
-            if ticker in sub.title:
-                titles[ticker].append(sub.title)
-                try:
-                    if len(sub.selftext) > 2 and sub.selftext != '[removed]':
-                        body = sub.selftext.replace('\n','')
-                        posts[ticker].append(body)
-                except:
-                    posts[ticker].append(None)
+    return df
 
-    titles = pd.DataFrame.from_dict(titles,orient='index').T
-    posts = pd.DataFrame.from_dict(posts, orient='index').T
-
-    return titles, posts
-
-titles, posts = scrape_posts(top_15_tickers)
+titles = scrape_posts(top_15_tickers)
 titles.to_csv('wsb_title.csv', index=False)
-# posts.to_csv('wsb_posts.csv', index=False)
 
 def scrape_commets(tickers):
 
@@ -56,5 +45,3 @@ def scrape_commets(tickers):
     comments = pd.DataFrame.from_dict(comments,orient='index').T
     return  comments
 
-# comments = scrape_commets(top_15_tickers)
-# comments.to_csv('wsb_comments.csv',index=False)

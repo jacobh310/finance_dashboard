@@ -11,6 +11,7 @@ tickers = tickers['Tickers'].values
 api = PushshiftAPI()
 start_epoch=dt.date.today() - timedelta(days=7)
 
+
 subs= api.search_submissions(after=start_epoch,
                             subreddit='wallstreetbets',
                             filter=['url','author', 'title', 'subreddit'],
@@ -21,7 +22,7 @@ cash_tags = {}
 
 for sub in subs:
     for word in sub.title.split(' '):
-        if (word.isupper() or '$' in word) and word in tickers:
+        if (word.isupper() or '$' in word) and word in tickers and word.upper() !='GME':
             word =  re.sub("[^a-zA-Z]+", "", word)
             if word.upper() not in cash_tags:
                 cash_tags[word.upper()] = 1

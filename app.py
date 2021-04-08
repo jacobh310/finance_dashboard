@@ -9,8 +9,8 @@ import pandas as pd
 st.markdown("<h1 style='text-align: center; color:#295E61 ;'>Financial Dashboard</h1>",
             unsafe_allow_html=True)
 
-options = ('Fundamentals','Sentiment Analysis','Price Forecaster')
-dashboard = st.sidebar.selectbox('Which Dashboard',options,index=0)
+options = ('Fundamentals','Twitter and Reddit Sentiment Analysis','Stock Sentiment Analysis','Price Forecaster')
+dashboard = st.sidebar.selectbox('Which Dashboard',options,index=2)
 
 if dashboard == options[0]:
 
@@ -18,7 +18,6 @@ if dashboard == options[0]:
     tickers['Tickers'] = tickers['Tickers'].str[:-2]
     tickers = tickers['Tickers'].tolist()
 
-    # stocks = ("AAPL", "GOOG", "MSFT", "TSLA", "AMD")
     ticker = st.selectbox('Which stock?', tickers , index=tickers.index('AAPL'))
 
     price_data = yf.Ticker(ticker).history(period='3y', interval='1d').drop(columns=['Volume','Dividends','Stock Splits'])
@@ -70,6 +69,19 @@ if dashboard == options[1]:
     col2.header('Wall Street Bets')
     col2.plotly_chart(util.weekly_sent_bar(wsb_avg_sent))
 
-    st.markdown("<h2 style='text-align: center; color:#295E61 ;'>Twitter  Sentiment over the Past  7 days</h2>",  unsafe_allow_html=True)
+    st.markdown("<h2 style='text-align: center; color:#295E61 ;'>Twitter Sentiment over the Past  7 days</h2>",  unsafe_allow_html=True)
     avg_sent_day = twitter_sentiments.groupby(['ticker','tweet_date']).mean()['compound']
     st.plotly_chart(util.daily_sent(avg_sent_day,twitter_avg_sent.index))
+
+
+if dashboard == options[2]:
+    tickers = pd.read_csv('D:\\Github\\financial_dashboard\data_scrappers\\tickers.csv', header=None, names=['Tickers'])
+    tickers['Tickers'] = tickers['Tickers'].str[:-2]
+    tickers = tickers['Tickers'].tolist()
+
+    ticker = st.selectbox('Which stock?', tickers, index=tickers.index('AAPL'))
+
+    df = util.tweet_sent_for_stock(ticker)
+    avg_daily_sentiment = df.groupby('Date').mean()['compound']
+    st.dataframe(avg_daily_sentiment)
+    st.plotly_chart(util.plot_daily_sent(avg_daily_sentiment))

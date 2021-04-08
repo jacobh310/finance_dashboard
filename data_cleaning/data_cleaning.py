@@ -2,10 +2,9 @@ import pandas as pd
 import numpy as np
 import re
 import emoji
+import datetime as dt
 
-tweets = pd.read_csv('D:\\Github\\financial_dashboard\data_scrappers\\tweets.csv', index_col=0)
-wsb_titles = pd.read_csv('D:\\Github\\financial_dashboard\data_scrappers\\wsb_title.csv')
-wsb_titles = pd.melt(wsb_titles, var_name='Ticker', value_name='Title').dropna()
+
 
 def cleaner(tweet):
     tweet = re.sub(r"RT @[\w]*:","",tweet)
@@ -18,13 +17,20 @@ def cleaner(tweet):
 
     return tweet
 
-tweets.columns = ['Date','Ticker','Tweet']
-tweets['Tweet'] = tweets['Tweet'].map(lambda x: cleaner(x))
-tweets['Date'] =  pd.to_datetime(tweets['Date']).dt.date
-tweets.to_csv('clean_tweets.csv', index=False)
+if __name__ == "__main__":
+
+    tweets = pd.read_csv('D:\\Github\\financial_dashboard\data_scrappers\\tweets.csv', index_col=0)
+    wsb_titles = pd.read_csv('D:\\Github\\financial_dashboard\data_scrappers\\wsb_title.csv')
+
+    tweets.columns = ['Date','Ticker','Tweet']
+    tweets['Tweet'] = tweets['Tweet'].map(lambda x: cleaner(x))
+    tweets['Date'] =  pd.to_datetime(tweets['Date']).dt.date
+    tweets.to_csv('clean_tweets.csv', index=False)
 
 
-for col in wsb_titles.columns:
-    wsb_titles[col] = wsb_titles[col].map(lambda x: np.nan if pd.isna(x)  else cleaner(x))
 
-wsb_titles.to_csv('clean_wsb_titles.csv', index=False)
+    wsb_titles.columns = ['Ticker','Title','Date']
+    wsb_titles['Title'] = wsb_titles['Title'].map(lambda  x: cleaner(x))
+    wsb_titles['Date'] = pd.to_datetime(wsb_titles['Date'],utc=True, unit='s').dt.date
+    wsb_titles.to_csv('clean_wsb_titles.csv', index=False)
+

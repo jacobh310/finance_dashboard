@@ -70,7 +70,7 @@ def plot_metrics(df,df2,height):
 
 def get_twitter_sentiment():
 
-    engine = create_engine('postgresql://postgres:chivas101@localhost:5432/Sentiment')
+    engine = create_engine(config.local_data_base_uri)
 
     df = pd.read_sql("""SELECT 
         tweet_date, 
@@ -82,7 +82,8 @@ def get_twitter_sentiment():
     return df
 
 def get_wsb_sentiment():
-    engine = create_engine('postgresql://postgres:chivas101@localhost:5432/Sentiment')
+
+    engine = create_engine(config.local_data_base_uri)
 
     df = pd.read_sql("""SELECT 
         date_added,
@@ -126,12 +127,12 @@ def recommendations(df):
     return fig
 
 
-def tweet_sent_for_stock(ticker):
+def tweet_sent_for_stock(ticker, num):
     auth = tweepy.OAuthHandler(config.key, config.key_secret)
     auth.set_access_token(config.token, config.token_secret)
     api = tweepy.API(auth, wait_on_rate_limit=True)
 
-    count = 1000
+    count = num
 
     df = pd.DataFrame()
     try:
@@ -163,7 +164,7 @@ def plot_daily_sent(df):
 
 
     fig.add_trace(go.Bar(x=df.index,
-                        y= df.values,))
+                        y= df.values))
 
     fig.update_layout(title = 'Average Daily Sentiment',
                     height=800,

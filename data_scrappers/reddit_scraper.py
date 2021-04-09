@@ -17,7 +17,7 @@ def get_tickers():
     subs= api.search_submissions(after=start_epoch,
                                 subreddit='wallstreetbets',
                                 filter=['url','author', 'title', 'subreddit'],
-                                limit=20000)
+                                limit=2000)
 
 
     cash_tags = {}
@@ -37,5 +37,5 @@ def get_tickers():
 
 if __name__ == "__main__":
 
-    cash_tags = get_tickers()
-    cash_tags.to_csv('wsb_tickers.csv')
+    wsb_tickers = get_tickers()
+    wsb_tickers.to_csv('wsb_tickers.csv')

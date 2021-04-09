@@ -1,5 +1,5 @@
-﻿emoji==1.2.0
-pandas==0.25.3
+﻿pandas==0.25.3
+emoji==1.2.0
 plotly==4.14.3
 numpy==1.19.2
 psaw==0.1.0

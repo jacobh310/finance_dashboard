@@ -114,7 +114,8 @@ if __name__ == "__main__":
 
     # creates connection with database
 
-    engine = create_engine(config.local_data_base_uri)
+    # engine = create_engine(config.local_data_base_uri)
+    engine = create_engine(config.heroku_database_uri)
     Base.metadata.create_all(bind=engine)
 
     print("Adding to database")

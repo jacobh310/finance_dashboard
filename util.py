@@ -69,7 +69,7 @@ def plot_metrics(df,df2,height):
 
 def get_twitter_sentiment():
 
-    engine = create_engine(config.local_data_base_uri)
+    engine = create_engine(config.heroku_database_uri)
 
     df = pd.read_sql("""SELECT 
         tweet_date, 
@@ -82,7 +82,7 @@ def get_twitter_sentiment():
 
 def get_wsb_sentiment():
 
-    engine = create_engine(config.local_data_base_uri)
+    engine = create_engine(config.heroku_database_uri)
 
     df = pd.read_sql("""SELECT 
         date_added,

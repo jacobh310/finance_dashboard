@@ -1,5 +1,4 @@
 import pandas as pd
-import numpy as np
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 import warnings
 warnings.filterwarnings("ignore")

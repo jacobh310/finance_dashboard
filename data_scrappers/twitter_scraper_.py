@@ -1,5 +1,4 @@
 import pandas as pd
-import yfinance as yf
 import time
 import tweepy
 import config

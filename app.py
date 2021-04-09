@@ -2,7 +2,6 @@ import streamlit as st
 import util
 st.set_page_config(layout="wide")
 from data_scrappers import financial_scraper as fs
-import plotly.graph_objects as go
 import yfinance as yf
 import pandas as pd
 

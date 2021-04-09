@@ -1,6 +1,5 @@
 import  plotly.graph_objs as go
 from plotly.subplots import make_subplots
-import yfinance as yf
 import pandas as pd
 from sqlalchemy import  create_engine
 import config
@@ -8,7 +7,7 @@ import tweepy
 import time
 from data_cleaning.data_cleaning import cleaner
 from Sentiment_analysis.vader_model import sentiment_df
-from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
+
 
 
 def plot_candle_sticks(ticker, price_data):

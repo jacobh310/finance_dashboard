@@ -6,3 +6,6 @@ data_scrappers/config.py
 sentiment_db.sqlite3
 sentiment_db.sqlite3-journal
 config.py
+__pycache__/util.cpython-38.pyc
+__pycache__/config.cpython-38.pyc
+__pycache__/data_base.cpython-38.pyc

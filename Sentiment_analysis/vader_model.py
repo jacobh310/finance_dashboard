@@ -29,6 +29,6 @@ if __name__ == "__main__":
     tweet_sentiments = sentiment_df(tweets,'Tweet')
     wsb_title_sentiments = sentiment_df(wsb_titles, 'Title')
 
-    # tweet_sentiments.to_csv('tweet_sentiments.csv', index=False)
-    # wsb_title_sentiments.to_csv('wsb_titles_sentiments.csv', index=False)
+    tweet_sentiments.to_csv('tweet_sentiments.csv', index=False)
+    wsb_title_sentiments.to_csv('wsb_titles_sentiments.csv', index=False)
 

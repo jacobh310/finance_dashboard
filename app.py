@@ -9,8 +9,8 @@ import pandas as pd
 st.markdown("<h1 style='text-align: center; color:#295E61 ;'>Financial Dashboard</h1>",
             unsafe_allow_html=True)
 
-options = ('Fundamentals','Twitter and Reddit Sentiment Analysis','Stock Sentiment Analysis','Price Forecaster')
-dashboard = st.sidebar.selectbox('Which Dashboard',options,index=1)
+options = ('Fundamentals','Twitter and Reddit Sentiment Analysis','Stock Sentiment Analysis')
+dashboard = st.sidebar.selectbox('Which Dashboard',options,index=2)
 
 if dashboard == options[0]:
 
@@ -80,8 +80,12 @@ if dashboard == options[2]:
     tickers = tickers['Tickers'].tolist()
 
     ticker = st.selectbox('Which stock?', tickers, index=tickers.index('AAPL'))
-
-    df = util.tweet_sent_for_stock(ticker)
+    num_tweets = st.slider(min_value=500,
+                           max_value=5000,
+                           label="Number of tweets",
+                           step = 100,
+                           value=1000)
+    df = util.tweet_sent_for_stock(ticker,num_tweets)
     avg_daily_sentiment = df.groupby('Date').mean()['compound']
     st.dataframe(avg_daily_sentiment)
     st.plotly_chart(util.plot_daily_sent(avg_daily_sentiment))

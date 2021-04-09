@@ -13,7 +13,7 @@ dashboard = st.sidebar.selectbox('Which Dashboard',options,index=2)
 
 if dashboard == options[0]:
 
-    tickers = pd.read_csv('D:\\Github\\financial_dashboard\data_scrappers\\tickers.csv', header=None, names=['Tickers'])
+    tickers = pd.read_csv('data_scrappers\\tickers.csv', header=None, names=['Tickers'])
     tickers['Tickers'] = tickers['Tickers'].str[:-2]
     tickers = tickers['Tickers'].tolist()
 
@@ -74,7 +74,7 @@ if dashboard == options[1]:
 
 
 if dashboard == options[2]:
-    tickers = pd.read_csv('D:\\Github\\financial_dashboard\data_scrappers\\tickers.csv', header=None, names=['Tickers'])
+    tickers = pd.read_csv('data_scrappers\\tickers.csv', header=None, names=['Tickers'])
     tickers['Tickers'] = tickers['Tickers'].str[:-2]
     tickers = tickers['Tickers'].tolist()
 

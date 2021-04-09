@@ -17,10 +17,10 @@ def sentiment_df(df,col):
 
 if __name__ == "__main__":
 
-    tweets = pd.read_csv('D:\\Github\\financial_dashboard\data_cleaning\\clean_tweets.csv')
+    tweets = pd.read_csv('data_cleaning\\clean_tweets.csv')
     tweets = tweets.dropna()
 
-    wsb_titles = pd.read_csv('D:\\Github\\financial_dashboard\data_cleaning\\clean_wsb_titles.csv')
+    wsb_titles = pd.read_csv('data_cleaning\\clean_wsb_titles.csv')
     wsb_titles = wsb_titles.dropna()
 
 

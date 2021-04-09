@@ -6,7 +6,7 @@ from psaw import PushshiftAPI
 
 
 def get_tickers():
-    tickers = pd.read_csv('D:\\Github\\financial_dashboard\data_scrappers\\tickers.csv', header=None,names=['Tickers'])
+    tickers = pd.read_csv('data_scrappers\\tickers.csv', header=None,names=['Tickers'])
     tickers['Tickers'] = tickers['Tickers'].str[:-2]
     tickers = tickers['Tickers'].values
 

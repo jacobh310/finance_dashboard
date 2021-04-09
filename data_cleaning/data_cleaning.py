@@ -18,8 +18,8 @@ def cleaner(tweet):
 
 if __name__ == "__main__":
 
-    tweets = pd.read_csv('D:\\Github\\financial_dashboard\data_scrappers\\tweets.csv', index_col=0)
-    wsb_titles = pd.read_csv('D:\\Github\\financial_dashboard\data_scrappers\\wsb_title.csv')
+    tweets = pd.read_csv('data_scrappers\\tweets.csv', index_col=0)
+    wsb_titles = pd.read_csv('data_scrappers\\wsb_title.csv')
 
     tweets.columns = ['Date','Ticker','Tweet']
     tweets['Tweet'] = tweets['Tweet'].map(lambda x: cleaner(x))

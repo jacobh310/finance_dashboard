@@ -40,7 +40,7 @@ def scrape_comments(tickers):
     return  comments
 
 if __name__ == "__main__":
-    wsb_tickers = pd.read_csv('D:\\Github\\financial_dashboard\data_scrappers\\wsb_tickers.csv', names=['Tickers'],header=0)
+    wsb_tickers = pd.read_csv('data_scrappers\\wsb_tickers.csv', names=['Tickers'],header=0)
     wsb_tickers = wsb_tickers.sort_values(by='Tickers', ascending=False)
     top_15_tickers = wsb_tickers.head(15).index
     titles = scrape_posts(top_15_tickers)

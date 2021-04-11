@@ -2,7 +2,6 @@
 venv/
 __pycache__
 data_scrappers/__pycache__/
-data_scrappers/config.py
 sentiment_db.sqlite3
 sentiment_db.sqlite3-journal
 config.py

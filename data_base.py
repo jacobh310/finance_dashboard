@@ -6,7 +6,8 @@ import  pandas as pd
 from data_scrappers import reddit_scraper, reddit_post_scrapper, twitter_scraper_
 from data_cleaning import data_cleaning
 from Sentiment_analysis import vader_model
-import config
+# import config
+import settings
 
 Base = declarative_base()
 
@@ -74,6 +75,12 @@ def add_to_twitter():
 
 
 if __name__ == "__main__":
+    # creates connection with database
+
+    # engine = create_engine(config.local_data_base_uri)
+    engine = create_engine(settings.DATABASE_URL)
+    Base.metadata.create_all(bind=engine)
+
 
     # scrapes the most popular tickers from wsb
     wsb_tickers = reddit_scraper.get_tickers()
@@ -112,11 +119,6 @@ if __name__ == "__main__":
     # wsb_sentiments = pd.read_csv('D:\\Github\\financial_dashboard\Sentiment_analysis\\wsb_titles_sentiments.csv')
     # wsb_sentiments['Date'] = pd.to_datetime(wsb_sentiments['Date']).dt.date
 
-    # creates connection with database
-
-    # engine = create_engine(config.local_data_base_uri)
-    engine = create_engine(config.heroku_database_uri)
-    Base.metadata.create_all(bind=engine)
 
     print("Adding to database")
     # adds to the database

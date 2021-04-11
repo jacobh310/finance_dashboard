@@ -2,7 +2,8 @@ import  plotly.graph_objs as go
 from plotly.subplots import make_subplots
 import pandas as pd
 from sqlalchemy import create_engine
-import config
+# import config
+import settings
 import tweepy
 import time
 from data_cleaning.data_cleaning import cleaner
@@ -63,13 +64,13 @@ def plot_metrics(df,df2,height):
         i += 1
 
 
-    fig.update_layout(height=height, width=850, showlegend= False)
+    fig.update_layout(height=height, width=700, showlegend= False)
 
     return fig
 
 def get_twitter_sentiment():
 
-    engine = create_engine(config.heroku_database_uri)
+    engine = create_engine(settings.DATABASE_URL)
 
     df = pd.read_sql("""SELECT 
         tweet_date, 
@@ -82,7 +83,7 @@ def get_twitter_sentiment():
 
 def get_wsb_sentiment():
 
-    engine = create_engine(config.heroku_database_uri)
+    engine = create_engine(settings.DATABASE_URL)
 
     df = pd.read_sql("""SELECT 
         date_added,
@@ -121,14 +122,14 @@ def recommendations(df):
     fig = go.Figure()
     fig.add_trace(go.Bar(x=df.index, y=df, textposition='auto'))
     fig.update_layout( margin=go.layout.Margin(b=0,t=15),
-                       width=800,
-                       height=600)
+                       width=700,
+                       height=500)
     return fig
 
 
 def tweet_sent_for_stock(ticker, num):
-    auth = tweepy.OAuthHandler(config.key, config.key_secret)
-    auth.set_access_token(config.token, config.token_secret)
+    auth = tweepy.OAuthHandler(settings.key, settings.key_secret)
+    auth.set_access_token(settings.token, settings.token_secret)
     api = tweepy.API(auth, wait_on_rate_limit=True)
 
     count = num

@@ -92,7 +92,7 @@ if __name__ == "__main__":
 
     # scrapes tweets that contain popular tickers from wsb
     print("Finished Scrapping wsb titles. Now scrapping twitter")
-    tweets = twitter_scraper_.get_tweets()
+    tweets = twitter_scraper_.get_tweets(top_15_tickers)
 
     print('Cleaning tweets')
     #cleans tweets

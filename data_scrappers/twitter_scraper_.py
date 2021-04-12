@@ -16,7 +16,7 @@ def get_tweets(tickers):
     # top_15_tickers = wsb_tickers.head(15).index
     # top_15_comp_name = [yf.Ticker(ticker).info['shortName'].split()[0] for ticker in top_15_tickers]
 
-    count = 10000
+    count = 5000
 
     df = pd.DataFrame()
     for ticker in tickers:

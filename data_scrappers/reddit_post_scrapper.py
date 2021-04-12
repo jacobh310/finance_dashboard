@@ -28,7 +28,7 @@ def scrape_comments(tickers):
 
     api = PushshiftAPI()
     start_epoch = dt.date.today() - timedelta(days=7)
-    subs = list(api.search_comments(after=start_epoch, subreddit='wallstreetbets', limit=50000))
+    subs = list(api.search_comments(after=start_epoch, subreddit='wallstreetbets', limit=20000))
     comments = {}
     for ticker in tickers:
         comments[ticker] = []

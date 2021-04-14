@@ -14,9 +14,11 @@ This web app is comprised of three different dashboards.
 - the wall street bets subreddit was scrapped to find the most popular tickers. 
 - Reddit post from wall streat bets and tweets containing the most popular tickers from wall street bets were scrapped 
 ### Data Evalutation 
-- tweets and wallstreet bets post are evulated for sentiment using the VADER sentiment model and plotted for weekly average and daily average over a week   
-- The vader models a complete positive sentiment as a 1.0 and a compleete negative sentiment as a -1.0
-
+- Tweets and wallstreet bets post are evulated for sentiment using the VADER sentiment model 
+- The vader model evaluates a complete positive sentiment as a 1.0 and a compleete negative sentiment as a -1.0
+- Data is then pushed to to a Heroku Provision database
+### Data Visulaization
+- Sentiment data is queried from the heroku Postgres database and plotted as weekly averages and daily averages for the top tickers
 ![Alt text](https://github.com/jacobh310/finance_dash_csv/blob/master/images/twitter_daily.JPG?raw=true "Sentiment")
 
 ## Twitter Sentiment Analaysis 

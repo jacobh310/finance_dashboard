@@ -4,7 +4,8 @@ This web app is comprised of three different dashboards.
 1) In the Stock Financials and Funementals
 2) Wall street bets and twitter sentiment analaysis 
 3) Twitter Sentiment Analaysis 
-
+  
+Checkout the Web App: https://finance-sentiment-dash.herokuapp.com/
 
 ## Stock Financial Page
 - This page show price, financials, and other metrics for user selected stocks though tables and plots. Users can also select another stock to compar metrics and financials for a more educated investment decision 

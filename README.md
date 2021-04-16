@@ -6,6 +6,7 @@ This web app is comprised of three different dashboards.
 3) Twitter Sentiment Analaysis 
   
 Checkout the Web App: https://finance-sentiment-dash.herokuapp.com/
+Checout the CSV version: https://github.com/jacobh310/finance_dash_csv
 
 ## Stock Financial Page
 - This page show price, financials, and other metrics for user selected stocks though tables and plots. Users can also select another stock to compar metrics and financials for a more educated investment decision 

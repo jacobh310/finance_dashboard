@@ -5,7 +5,7 @@ This web app is comprised of three different dashboards.
 2) Wall street bets and twitter sentiment analaysis 
 3) Twitter Sentiment Analaysis 
   
-Checkout the Web App: https://finance-sentiment-dash.herokuapp.com/
+Checkout the Web App: https://finance-sentiment-dash.herokuapp.com/  
 Checout the CSV version: https://github.com/jacobh310/finance_dash_csv
 
 ## Stock Financial Page
